@@ -80,7 +80,8 @@ class TwitterPlugin extends Plugin implements CrawlerPlugin, DashboardPlugin, Po
                     $api = new CrawlerTwitterAPIAccessorOAuth($tokens['oauth_access_token'],
                     $tokens['oauth_access_token_secret'], $options['oauth_consumer_key']->option_value,
                     $options['oauth_consumer_secret']->option_value, $options['archive_limit']->option_value,
-                    $num_twitter_errors);
+                    $num_twitter_errors,$options['requires_proxy']->option_value,
+                    $options['proxy']->option_value);
 
                     $twitter_crawler = new TwitterCrawler($instance, $api);
                     $dashboard_module_cacher = new DashboardModuleCacher($instance);

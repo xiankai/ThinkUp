@@ -88,16 +88,19 @@ class TwitterAPIAccessorOAuth {
      * @param str $oauth_consumer_secret
      * @param int $num_twitter_errors
      * @param bool $log Whether or not to log progress (don't on initial web auth, do on crawl)
+     * @param bool $requires_proxy
+     * @param str $proxy
      * @return TwitterAPIAccessorOAuth
      */
     public function __construct($oauth_access_token, $oauth_access_token_secret, $oauth_consumer_key,
-    $oauth_consumer_secret, $num_twitter_errors, $log=true) {
+    $oauth_consumer_secret, $num_twitter_errors, $log=true, $requires_proxy=false, $proxy='') {
         $this->$oauth_access_token = $oauth_access_token;
         $this->$oauth_access_token_secret = $oauth_access_token_secret;
         $this->log = $log;
 
         $this->to = new TwitterOAuthThinkUp($oauth_consumer_key, $oauth_consumer_secret, $this->$oauth_access_token,
         $this->$oauth_access_token_secret);
+        $this->to->setProxy($requires_proxy,$proxy);
         $this->endpoints = $this->prepAPI();
 
         $logger = Logger::getInstance();
