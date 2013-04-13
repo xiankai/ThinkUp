@@ -132,6 +132,11 @@ class TwitterPlugin extends Plugin implements CrawlerPlugin, DashboardPlugin, Po
         $controller = new TwitterPluginConfigurationController($owner, 'twitter');
         return $controller->go();
     }
+    
+    public function renderHashtagConfiguration($owner, $active_user) {
+        $controller = new TwitterPluginHashtagConfigurationController($owner, 'twitter',$active_user);
+        return $controller->go();
+    }
 
     public function getDashboardMenuItems($instance) {
 

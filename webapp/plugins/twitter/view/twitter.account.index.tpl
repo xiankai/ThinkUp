@@ -34,6 +34,7 @@
         {if $user_is_admin}
         <td class="action-button">
             <span id="divactivate{$i->id}"><input type="submit" name="submit" class="btn {if $i->is_active}btnPause{else}btnPlay{/if}" id="{$i->id}" value="{if $i->is_active}Pause crawling{else}Start crawling{/if}" /></span>
+        	<a href="{$site_root_path}account/?p=twitter&u={$i->network_username}" class="btn btn-info btnHashtag">Search tweets</a>
         </td>
         {/if}
         <td class="action-button">
