@@ -62,7 +62,7 @@ interface InstanceHashtagDAO {
      * @param str $last_post_id
      * @return bool Whether or not update was successful
      */
-    public function updateLastPostId($instance_id, $hashtag_id, $last_post_id);
+    public function updateLastPostID($instance_id, $hashtag_id, $last_post_id);
     /**
      * Update earliest_post_id by instance ID and hashtag ID.
      * @param int $instance_id
@@ -70,13 +70,13 @@ interface InstanceHashtagDAO {
      * @param str $earliest_post_id
      * @return bool Whether or not update was successful
      */
-    public function updateEarliestPostId($instance_id, $hashtag_id, $earliest_post_id);
+    public function updateEarliestPostID($instance_id, $hashtag_id, $earliest_post_id);
     /**
      * Delete instance hashtags by hashtag ID.
      * @param str $hashtag_id
      * @return int Total instance hashtags deleted
      */
-    public function deleteInstanceHashtagsByHashtagId($hashtag_id);
+    public function deleteInstanceHashtagsByHashtagID($hashtag_id);
     /**
      * Get hashtags by a username and network.
      * @param str $username
@@ -84,4 +84,10 @@ interface InstanceHashtagDAO {
      * @return array Hashtag objects
      */
     public function getByUsername($username, $network);
+    /**
+     * Determine if an instance has saved a hashtag given a hashtag ID.
+     * @param str $hashtag_id
+     * @return bool Whether or not an instance has saved a hashtag.
+     */
+    public function isHashtagSaved($hashtag_id);
 }
