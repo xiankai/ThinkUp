@@ -57,6 +57,7 @@ class TwitterPlugin extends Plugin implements CrawlerPlugin, DashboardPlugin, Po
         $instance_dao = DAOFactory::getDAO('TwitterInstanceDAO');
         $owner_instance_dao = DAOFactory::getDAO('OwnerInstanceDAO');
         $owner_dao = DAOFactory::getDAO('OwnerDAO');
+        $instance_hashtag_dao = DAOFactory::getDAO('InstanceHashtagDAO');
 
         // get oauth values
         $plugin_option_dao = DAOFactory::GetDAO('PluginOptionDAO');
@@ -98,6 +99,12 @@ class TwitterPlugin extends Plugin implements CrawlerPlugin, DashboardPlugin, Po
                     $twitter_crawler->fetchStrayRepliedToTweets();
                     $twitter_crawler->fetchUnloadedFollowerDetails();
                     $twitter_crawler->cleanUpFollows();
+
+                    //Retrieve search results for saved keyword/hashtags
+                    $instances_hashtags = $instance_hashtag_dao->getByInstance($instance->id);
+                    foreach ($instances_hashtags as $instance_hashtag) {
+                        $twitter_crawler->fetchInstanceHashtagTweets($instance_hashtag);
+                    }
                 } else {
                     throw new Exception('Missing Twitter OAuth tokens.');
                 }
