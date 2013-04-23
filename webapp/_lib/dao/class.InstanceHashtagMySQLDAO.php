@@ -43,6 +43,34 @@ class InstanceHashtagMySQLDAO extends PDODAO implements InstanceHashtagDAO {
         return $this->getDataRowsAsObjects($stmt, 'InstanceHashtag');
     }
 
+    public function getHashtagsByInstances($instances) {
+        $q = "SELECT h.*, ih.instance_id, i.network_username, i.network ";
+        $q .= "FROM #prefix#hashtags h INNER JOIN #prefix#instances_hashtags ih ON ";
+        //@TODO Make this work for saved searches saved on any network, not just Twitter
+        $q .= "h.id = ih.hashtag_id INNER JOIN #prefix#instances i ON i.id = ih.instance_id ";
+        $q .= "WHERE i.network = 'twitter' AND (";
+        $counter = 0;
+        foreach ($instances as $instance) {
+            $q .= " ih.instance_id = :instance_id".$counter." ";
+            if ($instance != end($instances)) {
+                $q .= "OR";
+            }
+            $counter++;
+        }
+        $q .= ")  GROUP BY h.id";
+        $vars = array();
+
+        $counter = 0;
+        foreach ($instances as $instance) {
+            $vars[':instance_id'.$counter] = (int) $instance->id;
+            $counter++;
+        }
+        //echo Utils::mergeSQLVars($q, $vars);
+        if ($this->profiler_enabled) { Profiler::setDAOMethod(__METHOD__); }
+        $stmt = $this->execute($q, $vars);
+        return $this->getDataRowsAsArrays($stmt);
+    }
+
     public function insert($instance_id, $hashtag_id) {
         $q = "INSERT IGNORE INTO #prefix#instances_hashtags (instance_id, hashtag_id) ";
         $q .= "VALUES (:instance_id,:hashtag_id)";

@@ -30,11 +30,17 @@
  */
 interface InstanceHashtagDAO {
     /**
-     * Get hashtags by an instance ID.
+     * Get hashtag IDs by an instance ID.
      * @param int $instance_id
      * @return array InstancesHashtag objects
      */
     public function getByInstance($instance_id);
+    /**
+     * Get unique hashtags saved by multiple instances.
+     * @param arr Instance $instances
+     * @return arr hashtag and instance fields
+     */
+    public function getHashtagsByInstances($instances);
     /**
      * Insert an instance hashtag into the data store.
      * @param int $instance_id
