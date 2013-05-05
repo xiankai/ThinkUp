@@ -125,10 +125,9 @@ class TestOfSearchController extends ThinkUpUnitTestCase {
         $this->assertNoPattern('/No posts found/', $results);
         $this->assertNoPattern('/Whoops! That user doesn&#39;t exist. Please try again./',$results);
         $this->assertNoPattern('/Uh-oh. #totssomtv3 is not a saved search. Please try again./',$results);
-        $this->assertPattern('/Dem� treballadors de TV3 donarem sang #lasangdelatele #totssomtv3/',$results);
-        $this->assertNoPattern('/El comit� d�empresa de TV3 acusa la direcci� de la CCMA de populista/',$results);
+        $this->assertPattern('/Dem treballadors de TV3 donarem sang #lasangdelatele #totssomtv3/',$results);
+        $this->assertNoPattern('/El comit dempresa de TV3 acusa la direcci de la CCMA de populista/',$results);
         $this->assertNoPattern('/El Chelsea quiere a Mourinho YA #efectivament/',$results);
-        $this->assertNoPattern('/El comit� d�empresa de TV3 acusa la direcci� de populista/',$results);
         $this->assertNoPattern('/Whoops! You don&#39;t have access to that user. Please try again./',$results);
 
         //Keyword being searched
@@ -142,10 +141,9 @@ class TestOfSearchController extends ThinkUpUnitTestCase {
         $this->assertNoPattern('/No posts found/', $results);
         $this->assertNoPattern('/Whoops! That user doesn&#39;t exist. Please try again./',$results);
         $this->assertNoPattern('/Uh-oh. Keyword CCMA is not being searched. Please try again./',$results);
-        $this->assertNoPattern('/Dem� treballadors de TV3 donarem sang #lasangdelatele #totssomtv3/',$results);
-        $this->assertPattern('/El comit� d�empresa de TV3 acusa la direcci� de la CCMA de populista/',$results);
+        $this->assertNoPattern('/Dem treballadors de TV3 donarem sang #lasangdelatele #totssomtv3/',$results);
+        $this->assertPattern('/El comit dempresa de TV3 acusa la direcci de la CCMA de populista/',$results);
         $this->assertNoPattern('/El Chelsea quiere a Mourinho YA #efectivament/',$results);
-        $this->assertNoPattern('/El comit� d�empresa de TV3 acusa la direcci� de populista/',$results);
         $this->assertNoPattern('/Whoops! You don&#39;t have access to that user. Please try again./',$results);
 
         //Another owner with no permission
@@ -354,7 +352,7 @@ class TestOfSearchController extends ThinkUpUnitTestCase {
             'author_fullname' => 'Veterans Castellnou',
             'author_avatar' => 'http://aa.com',
             'author_follower_count' => 0,
-            'post_text' => 'El comit� d�empresa de TV3 acusa la direcci� de populista',
+            'post_text' => 'El comit dempresa de TV3 acusa la direcci de la CCMA de populista',
             'is_protected' => 0,
             'source' => '<a href=""></a>',
             'location' => 'BCN',
