@@ -2,7 +2,6 @@ language: php
 php:
   - 5.4
   - 5.3
-  - 5.2
 
 before_script:
  - mysql -e 'create database thinkup'
@@ -13,4 +12,4 @@ before_script:
  - touch webapp/data/logs/stream.log
  - touch webapp/data/logs/crawler.log
 
-script: php tests/all_unit_tests.php
+script: TEST_DEBUG=1 php tests/all_unit_tests.php

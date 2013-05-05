@@ -41,84 +41,6 @@ class TestOfSearchController extends ThinkUpUnitTestCase {
         parent::tearDown();
     }
 
-    public function testNotLoggedIn() {
-        $controller = new SearchController(true);
-        $this->assertTrue(isset($controller));
-
-        $results = $controller->go();
-        $this->assertPattern('/You must/', $results);
-        $this->assertPattern('/log in/', $results);
-        $this->assertPattern('/to do this/', $results);
-    }
-
-    public function testConstructor() {
-        $this->simulateLogin('admin@example.com', true, true);
-
-        $controller = new SearchController(true);
-        $this->assertTrue(isset($controller));
-
-        $results = $controller->go();
-        $this->debug($results);
-        $this->assertPattern('/Uh-oh. Your search terms are missing. Please try again/', $results);
-    }
-
-    public function testSearchPosts() {
-        $this->simulateLogin('admin@example.com', true, true);
-
-        $_GET['c'] = "posts";
-        $_GET['u'] = 'ev';
-        $_GET['n'] = 'twitter';
-        $_GET['q'] = "Apple";
-        $controller = new SearchController(true);
-        $this->assertTrue(isset($controller));
-
-        $results = $controller->go();
-        $this->assertPattern('/No posts found/', $results);
-    }
-
-    public function testSearchFollowers() {
-        $this->simulateLogin('admin@example.com', true, true);
-
-        $_GET['c'] = "followers";
-        $_GET['u'] = 'ev';
-        $_GET['n'] = 'twitter';
-        $_GET['q'] = "name:Apple";
-        $controller = new SearchController(true);
-        $this->assertTrue(isset($controller));
-
-        $results = $controller->go();
-        $this->assertPattern('/No followers found/', $results);
-    }
-
-    protected function buildData() {
-        $builders = array();
-
-        //Add owner
-        $hashed_pass = ThinkUpTestLoginHelper::hashPasswordUsingDeprecatedMethod("oldpassword");
-
-        $builders[] = FixtureBuilder::build('owners', array('id'=>1, 'full_name'=>'ThinkUp J. User',
-        'email'=>'me@example.com', 'is_activated'=>1, 'pwd'=>$hashed_pass,
-        'pwd_salt'=> OwnerMySQLDAO::$default_salt, 'api_key' => 'c9089f3c9adaf0186f6ffb1ee8d6501c'));
-
-        $builders[] = FixtureBuilder::build('owners', array('id'=>2, 'full_name'=>'ThinkUp J. Admin',
-        'email'=>'admin@example.com', 'is_activated'=>1, 'is_admin'=>1));
-
-        //Add instance_owner
-        $builders[] = FixtureBuilder::build('owner_instances', array('owner_id'=>1, 'instance_id'=>1));
-        $builders[] = FixtureBuilder::build('owner_instances', array('owner_id'=>2, 'instance_id'=>1));
-
-        //Insert test data into test table
-        $builders[] = FixtureBuilder::build('users', array('user_id'=>'13', 'user_name'=>'ev',
-        'full_name'=>'Ev Williams'));
-
-        //Make public
-        //Insert test data into test table
-        $builders[] = FixtureBuilder::build('instances', array('id'=>1, 'network_user_id'=>'13',
-        'network_username'=>'ev', 'is_public'=>1, 'network'=>'twitter'));
-
-        return $builders;
-    }
-
     public function testSearchSearches() {
         //Before building data No posts
         $this->simulateLogin('admin@example.com', true, true);
@@ -199,6 +121,7 @@ class TestOfSearchController extends ThinkUpUnitTestCase {
         $controller = new SearchController(true);
         $this->assertTrue(isset($controller));
         $results = $controller->go();
+        $this->debug($results);
         $this->assertNoPattern('/No posts found/', $results);
         $this->assertNoPattern('/Whoops! That user doesn&#39;t exist. Please try again./',$results);
         $this->assertNoPattern('/Uh-oh. #totssomtv3 is not a saved search. Please try again./',$results);
@@ -215,6 +138,7 @@ class TestOfSearchController extends ThinkUpUnitTestCase {
         $controller = new SearchController(true);
         $this->assertTrue(isset($controller));
         $results = $controller->go();
+        $this->debug($results);
         $this->assertNoPattern('/No posts found/', $results);
         $this->assertNoPattern('/Whoops! That user doesn&#39;t exist. Please try again./',$results);
         $this->assertNoPattern('/Uh-oh. Keyword CCMA is not being searched. Please try again./',$results);
