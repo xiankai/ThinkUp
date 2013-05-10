@@ -168,6 +168,7 @@ class HashtagPostMySQLDAO extends PDODAO implements HashtagPostDAO {
         $q .= "AND YEAR(pub_date) = YEAR($for_date) AND (DAYOFMONTH(pub_date)=DAYOFMONTH($for_date)) ";
         $q .= "AND (MONTH(pub_date)=MONTH($for_date)); ";
         $ps = $this->execute($q, $vars);
+        echo Utils::mergeSQLVars($q, $vars);
         $result = $this->getDataRowAsArray($ps);
         return $result['total'];
     }
