@@ -83,8 +83,8 @@ class TwitterCrawler {
                 $this->user_dao->updateUser($this->user);
 
                 if (isset($this->user->follower_count) && $this->user->follower_count>0) {
-                    $fcount_dao = DAOFactory::getDAO('CountHistoryDAO');
-                    $fcount_dao->insert($this->user->user_id, 'twitter',
+                    $count_dao = DAOFactory::getDAO('CountHistoryDAO');
+                    $count_dao->insert($this->user->user_id, 'twitter',
                     $this->user->follower_count, null, 'followers');
                 }
                 $this->logger->logUserSuccess("Successfully fetched ".$this->user->username.

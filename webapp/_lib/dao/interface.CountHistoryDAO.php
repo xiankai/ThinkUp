@@ -21,7 +21,7 @@
  * <http://www.gnu.org/licenses/>.
  *
  *
- * Follower Count Data Access Object
+ * Count History Data Access Object
  *
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2013 Gina Trapani
@@ -29,9 +29,8 @@
  *
  */
 interface CountHistoryDAO  {
-
     /**
-     * Insert a count
+     * Insert a count.
      * @param int $network_user_id
      * @param str $network
      * @param int $count
@@ -41,9 +40,8 @@ interface CountHistoryDAO  {
      * @return int Total inserted
      */
     public function insert($network_user_id, $network, $count, $post_id, $type, $date=null);
-
     /**
-     * Get follower count history for a user
+     * Get count history for a user (by default follower count history).
      * @param int $network_user_id
      * @param str $network
      * @param str $group_by 'DAY', 'WEEK', 'MONTH'
@@ -51,15 +49,13 @@ interface CountHistoryDAO  {
      * @param str $start_date Defaults to null (today)
      * @return array $history, $percentages
      */
-    public function getHistory($network_user_id, $network, $group_by, $limit=10, $before_date=null);
-
+    public function getHistory($network_user_id, $network, $group_by, $limit=10, $before_date=null, $type='followers');
     /**
-     * Get all the counts for a post by its ID
+     * Get all the counts for a post by its ID.
      * @param  str $post_id The ID of the post you want counts for
      * @return array Of counts for the post with the specified ID
      */
     public function getCountsByPostID($post_id);
-
     /**
      * Get all the counts for a post of a certain type e.g. likes, dislikes, views etc.
      * @param  str $post_id The ID of the post to get counts for
@@ -67,9 +63,8 @@ interface CountHistoryDAO  {
      * @return array of Counts for the specified post and of the specified type
      */
     public function getCountsByPostIDAndType($post_id, $type);
-
     /**
-     * Sums the counts for a specified post and of a specified type over a specified time period
+     * Sums the counts for a specified post and of a specified type over a specified time period.
      * @param  str $post_id    ID of the post which the count is for
      * @param  str $type       Which count type you want to sum e.g. likes, views etc.
      * @param  str $start_date Oldest counts to include
@@ -77,9 +72,8 @@ interface CountHistoryDAO  {
      * @return int Sum of counts requested
      */
     public function sumCountsOverTimePeriod($post_id, $type, $start_date, $end_date);
-
     /**
-     * Get the newest count we have for the specified type
+     * Get the newest count for the specified type.
      * @param  str $post_id The ID of the post to get counts for
      * @param  str $type The type of count you are interested in e.g. likes dislikes, views etc
      * @return array of Counts for the specified post and of the specified type

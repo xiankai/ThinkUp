@@ -21,7 +21,7 @@
  * <http://www.gnu.org/licenses/>.
  *
  *
- * Follower Count MySQL Data Access Object Implementation
+ * Count History MySQL Data Access Object Implementation
  *
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2013 Gina Trapani
@@ -51,7 +51,7 @@ class CountHistoryMySQLDAO extends PDODAO implements CountHistoryDAO {
         return $this->getInsertCount($ps);
     }
 
-    public function getHistory($network_user_id, $network, $units, $limit=10, $before_date=null) {
+    public function getHistory($network_user_id, $network, $units, $limit=10, $before_date=null, $type='followers') {
         if ($before_date == date('Y-m-d')) {
             $before_date = null;
         }
@@ -72,12 +72,13 @@ class CountHistoryMySQLDAO extends PDODAO implements CountHistoryDAO {
         $vars = array(
             ':network_user_id'=>(string) $network_user_id,
             ':network'=>$network,
+            ':type'=>$type,
             ':limit'=>(int)$limit
         );
         $q = "SELECT network_user_id, network, count, date, full_date FROM ";
         $q .= "(SELECT network_user_id, network, count, ".$date_format." as date, date as full_date ";
         $q .= "FROM #prefix#count_history AS fc ";
-        $q .= "WHERE fc.network_user_id = :network_user_id AND fc.network=:network ";
+        $q .= "WHERE fc.network_user_id = :network_user_id AND fc.network=:network AND type=:type ";
         if ($before_date != null) {
             $q .= "AND date <= :before_date ";
             $vars[':before_date'] = $before_date;
