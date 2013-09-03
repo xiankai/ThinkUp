@@ -88,17 +88,17 @@ class TwitterPlugin extends Plugin implements CrawlerPlugin, DashboardPlugin, Po
 
                     $instance_dao->updateLastRun($instance->id);
 
-                    $twitter_crawler->fetchInstanceUserTweets();
+//                    $twitter_crawler->fetchInstanceUserTweets();
                     $twitter_crawler->fetchInstanceUserMentions();
-                    $twitter_crawler->fetchInstanceUserFriends();
-                    $twitter_crawler->fetchInstanceUserFollowers();
-                    $twitter_crawler->fetchInstanceUserGroups();
-                    $twitter_crawler->fetchRetweetsOfInstanceUser();
-                    $twitter_crawler->fetchInstanceUserFavorites();
-                    $twitter_crawler->updateStaleGroupMemberships();
-                    $twitter_crawler->fetchStrayRepliedToTweets();
-                    $twitter_crawler->fetchUnloadedFollowerDetails();
-                    $twitter_crawler->cleanUpFollows();
+//                    $twitter_crawler->fetchInstanceUserFriends();
+//                    $twitter_crawler->fetchInstanceUserFollowers();
+//                    $twitter_crawler->fetchInstanceUserGroups();
+//                    $twitter_crawler->fetchRetweetsOfInstanceUser();
+//                    $twitter_crawler->fetchInstanceUserFavorites();
+//                    $twitter_crawler->updateStaleGroupMemberships();
+//                    $twitter_crawler->fetchStrayRepliedToTweets();
+//                    $twitter_crawler->fetchUnloadedFollowerDetails();
+//                    $twitter_crawler->cleanUpFollows();
 
                     //Retrieve search results for saved keyword/hashtags
                     $instances_hashtags = $instance_hashtag_dao->getByInstance($instance->id);
