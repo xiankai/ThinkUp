@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * ThinkUp/webapp/_lib/class.Mailer.php
+ * ThinkUp/webapp/_lib/class.MailerMandrill.php
  *
  * Copyright (c) 2009-2013 Gina Trapani
  *
@@ -25,7 +25,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2013 Gina Trapani
  */
-class \Mailer\Mandrill {
+class MailerMandrill {
     /**
      * Send email from ThinkUp instalation. If you're running tests, just write the message headers and contents to
      * the file system in the data directory.
@@ -36,22 +36,27 @@ class \Mailer\Mandrill {
     public static function mail($to, $subject, $message) {
         $config = Config::getInstance();
 
-        $app_title = $config->getValue('app_title_prefix'). "ThinkUp";
-        $host = self::getHost();
+        $app_title = $config->getValue('app_title_prefix') . "ThinkUp";
+        $host = Mailer::getHost();
         $mandrill_key = $config->getValue('mandrill_key');
         $params = array(
                 'key' => $mandrill_key,
                 'message' => array(
-                        'html' => $message,
-                        'to' => $to,
-                        'subject', $subject
-                        'from_name' => $app_title,
-                        'from_email' => "notifications@${host}",
-                    ),
+                    'text' => $message,
+                    'subject' => $subject,
+                    'from_email' => "notifications@${host}",
+                    'from_name' => $app_title,
+                    'to' => array(
+                        array(
+                            'email' => $to,
+                            'name' => $to
+                        )
+                    )
+                ),
             );
         $params = json_encode($params);
 
-        $ch = $this->ch = curl_init();
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mandrill-PHP/1.0.22');
         curl_setopt($ch, CURLOPT_URL, 'https://mandrillapp.com/api/1.0/messages/send');
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -67,7 +72,6 @@ class \Mailer\Mandrill {
         } else {
             curl_exec($ch);
         }
-
 
     }
 }

@@ -33,10 +33,14 @@ class TestOfMailer extends ThinkUpBasicUnitTestCase {
 
     public function setUp() {
         parent::setUp();
+        $config = Config::getInstance();
+        $config->setValue("mandrill_key", "");
     }
 
     public function tearDown(){
         parent::tearDown();
+        $config = Config::getInstance();
+        $config->setValue("mandrill_key", "");
         // delete test email file if it exists
         $test_email = FileDataManager::getDataPath(Mailer::EMAIL);
         if (file_exists($test_email)) {
@@ -44,7 +48,7 @@ class TestOfMailer extends ThinkUpBasicUnitTestCase {
         }
     }
 
-    public function testFromName() {
+    public function testFromName() {    
         $config = Config::getInstance();
         $config->setValue("app_title_prefix", "My Crazy Custom ");
         $_SERVER['HTTP_HOST'] = "my_thinkup_hostname";
@@ -90,7 +94,7 @@ $json = <<<json
 }
 json;
         
-        $this->assertPattern($json, $email_body);
+        $this->assertTrue(json_encode(json_decode($json)) === $email_body);
 
     }
 }

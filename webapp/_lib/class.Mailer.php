@@ -25,8 +25,6 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2013 Gina Trapani
  */
-require 'class.MailerMandrill.php';
-require 'class.MailerPHP.php';
 class Mailer {
     /**
      * For testing purposes only; this is the name of the file the latest email gets written to.
@@ -45,16 +43,16 @@ class Mailer {
         $mandrill_key = $config->getValue('mandrill_key');
 
         if ($mandrill_key) {
-            Mailer\PHP::mail($to, $subject, $message);
+            MailerMandrill::mail($to, $subject, $message);
         } else {
-            Mailer\Mandrill::mail($to, $subject, $message);
+            MailerPHP::mail($to, $subject, $message);
         }
     }
     /**
      * Return the current host's name, ie, $_SERVER['HTTP_HOST'] if it is set.
      * @return str Host name
      */
-    private static function getHost() {
+    public static function getHost() {
         if (isset($_SERVER['HTTP_HOST'])) {
             return $_SERVER['HTTP_HOST'];
         } else {

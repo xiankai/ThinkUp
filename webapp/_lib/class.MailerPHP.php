@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * ThinkUp/webapp/_lib/class.Mailer.php
+ * ThinkUp/webapp/_lib/class.MailerPHP.php
  *
  * Copyright (c) 2009-2013 Gina Trapani
  *
@@ -25,7 +25,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2013 Gina Trapani
  */
-class \Mailer\PHP {
+class MailerPHP {
     /**
      * Send email from ThinkUp instalation. If you're running tests, just write the message headers and contents to
      * the file system in the data directory.
