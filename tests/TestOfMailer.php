@@ -62,4 +62,35 @@ class TestOfMailer extends ThinkUpBasicUnitTestCase {
         $this->assertPattern('/From: "My Other Installation of ThinkUp" <notifications@my_other_hostname>/',
         $email_body);
     }
+
+    public function testMandrill() {
+        $config = Config::getInstance();
+        $config->setValue("app_title_prefix", "My Crazy Custom ");
+        $config->setValue("mandrill_key", "1234567890");
+        $_SERVER['HTTP_HOST'] = "my_thinkup_hostname";
+        Mailer::mail('you@example.com', 'Testing 123', 'Me worky, yo?');
+        $email_body = Mailer::getLastMail();
+        $this->debug($email_body);
+
+$json = <<<json
+{
+    "key": "1234567890",
+    "message": {
+        "text": "Me worky, yo?",
+        "subject": "Testing 123",
+        "from_email": "notifications@my_thinkup_hostname",
+        "from_name": "My Crazy Custom ThinkUp",
+        "to": [
+            {
+                "email": "you@example.com",
+                "name": "you@example.com"
+            }
+        ]
+    }         
+}
+json;
+        
+        $this->assertPattern($json, $email_body);
+
+    }
 }

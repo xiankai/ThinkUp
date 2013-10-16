@@ -25,6 +25,8 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2013 Gina Trapani
  */
+require 'class.MailerMandrill.php';
+require 'class.MailerPHP.php';
 class Mailer {
     /**
      * For testing purposes only; this is the name of the file the latest email gets written to.
@@ -40,25 +42,12 @@ class Mailer {
      */
     public static function mail($to, $subject, $message) {
         $config = Config::getInstance();
+        $mandrill_key = $config->getValue('mandrill_key');
 
-        $app_title = $config->getValue('app_title_prefix'). "ThinkUp";
-        $host = self::getHost();
-
-        $mail_header = "From: \"{$app_title}\" <notifications@{$host}>\r\n";
-        $mail_header .= "X-Mailer: PHP/".phpversion();
-
-        //don't send email when running tests, just write it to the filesystem for assertions
-        if ((isset($_SESSION["MODE"]) && $_SESSION["MODE"] == "TESTS") || getenv("MODE")=="TESTS") {
-          $test_email = FileDataManager::getDataPath(Mailer::EMAIL);
-            $fp = fopen($test_email, 'w');
-            fwrite($fp, $mail_header."\n");
-            fwrite($fp, "to: $to\n");
-            fwrite($fp, "subject: $subject\n");
-            fwrite($fp, "message: $message");
-            fclose($fp);
-            return $message;
+        if ($mandrill_key) {
+            Mailer\PHP::mail($to, $subject, $message);
         } else {
-            mail($to, $subject, $message, $mail_header);
+            Mailer\Mandrill::mail($to, $subject, $message);
         }
     }
     /**
@@ -84,5 +73,23 @@ class Mailer {
         } else {
             return '';
         }
+    }
+    /**
+     * Return the contents of the last email Mailer "sent" out.
+     * For testing purposes only; this will return nothing in production.
+     * @return str The contents of the last email sent
+     */
+    public static function setLastMail($message) {
+        $test_email = FileDataManager::getDataPath(Mailer::EMAIL);
+        $fp = fopen($test_email, 'w');
+        fwrite($fp, $message);
+        fclose($fp);
+    }
+    /**
+     * Return whether currently in test mode.
+     * @return bool Whether in test mode
+     */
+    public static function isTest() {
+        return (isset($_SESSION["MODE"]) && $_SESSION["MODE"] == "TESTS") || getenv("MODE")=="TESTS";
     }
 }
