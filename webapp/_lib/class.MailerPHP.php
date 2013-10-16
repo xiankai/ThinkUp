@@ -21,7 +21,7 @@
  * <http://www.gnu.org/licenses/>.
  *
  *
- * @author Gina Trapani <ginatrapani[at]gmail[dot]com>
+ * @author KJ <xiankai[at]gmail[dot]com>
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2013 Gina Trapani
  */

@@ -76,7 +76,8 @@ class TestOfMailer extends ThinkUpBasicUnitTestCase {
         $email_body = Mailer::getLastMail();
         $this->debug($email_body);
 
-$json = <<<json
+        // Exact JSON structure copied from Mandrill's site
+        $json = <<<json
 {
     "key": "1234567890",
     "message": {
@@ -94,6 +95,7 @@ $json = <<<json
 }
 json;
         
+        // Compare JSON string, ignoring whitespace differences
         $this->assertTrue(json_encode(json_decode($json)) === $email_body);
 
     }

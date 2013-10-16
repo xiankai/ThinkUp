@@ -32,7 +32,8 @@ class Mailer {
      */
     const EMAIL = '/latest_email';
     /**
-     * Send email from ThinkUp instalation. If you're running tests, just write the message headers and contents to
+     * Send email from ThinkUp installation. Will attempt to send via Mandrill if the key has been set.
+     * If you're running tests, just write the message headers and contents to
      * the file system in the data directory.
      * @param str $to A valid email address
      * @param str $subject

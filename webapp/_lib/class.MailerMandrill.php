@@ -21,14 +21,12 @@
  * <http://www.gnu.org/licenses/>.
  *
  *
- * @author Gina Trapani <ginatrapani[at]gmail[dot]com>
+ * @author KJ <xiankai[at]gmail[dot]com>
  * @license http://www.gnu.org/licenses/gpl.html
  * @copyright 2009-2013 Gina Trapani
  */
 class MailerMandrill {
     /**
-     * Send email from ThinkUp instalation. If you're running tests, just write the message headers and contents to
-     * the file system in the data directory.
      * @param str $to A valid email address
      * @param str $subject
      * @param str $message
@@ -62,9 +60,6 @@ class MailerMandrill {
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); 
 
         //don't send email when running tests, just write it to the filesystem for assertions
         if (Mailer::isTest()) {
